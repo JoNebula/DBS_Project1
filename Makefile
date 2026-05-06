@@ -26,7 +26,7 @@ run: $(BIN)
 venv:
 	@test -d $(VENV) || python3 -m venv $(VENV)
 	@$(PY) -m pip install --quiet --upgrade pip
-	@$(PY) -m pip install --quiet matplotlib pandas numpy
+	@$(PY) -m pip install --quiet -r requirements.txt
 
 # Render PNG plots from results/*.csv (assumes `make run` has been done)
 plots: venv

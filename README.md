@@ -30,7 +30,8 @@ project/
 - GNU `make`.
 - `python3` (only for plotting; the C++ experiments don't need it).
 
-The Python plotting deps (matplotlib, pandas, numpy) are installed into a
+The Python plotting deps are pinned in `requirements.txt`
+(matplotlib ≥ 3.5, pandas ≥ 2.0, numpy ≥ 1.23) and installed into a
 local virtualenv `.venv/` by `make venv`.
 
 ## Build & run
@@ -133,9 +134,3 @@ plus their separator combine into exactly `2(d − 1) + 1 = 2d − 1` keys.
   the merge stays well-defined; the 2/3 fill invariant is therefore
   guaranteed only on the insertion path.
 
-## Cleanup
-
-```sh
-make clean      # remove bin/ and results/*.csv + plots
-make distclean  # also remove .venv/
-```
