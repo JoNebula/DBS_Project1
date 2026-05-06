@@ -21,3 +21,6 @@ __pycache__/
 
 # Distribution archives (kept locally, not pushed)
 *.zip
+
+# Report sources are submitted separately, not via this repo
+report/
