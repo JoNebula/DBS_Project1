@@ -20,37 +20,51 @@ project/
 ├── data/
 │   └── student.csv      # 100k student records
 ├── results/             # experiment CSVs + PNG plots
+├── requirements.txt     # Python plotting deps (matplotlib, pandas, numpy)
+├── run.sh               # one-step reproducer (recommended)
 ├── Makefile
 └── README.md
 ```
 
 ## Requirements
 
-- C++17 compiler (`g++` or `clang++`). Tested with `g++ 13` / Apple `clang 15`.
+- C++17 compiler (`g++` ≥ 9 or `clang++`). Tested with `g++ 13` / Apple `clang 15`.
 - GNU `make`.
-- `python3` (only for plotting; the C++ experiments don't need it).
+- `python3` ≥ 3.9 (only for plotting; the C++ experiments don't need it).
 
 The Python plotting deps are pinned in `requirements.txt`
-(matplotlib ≥ 3.5, pandas ≥ 2.0, numpy ≥ 1.23) and installed into a
-local virtualenv `.venv/` by `make venv`.
+(matplotlib ≥ 3.5, pandas ≥ 2.0, numpy ≥ 1.23). `run.sh` creates a local
+virtualenv at `.venv/` and installs them automatically — no system-wide
+`pip install` is required, so the macOS PEP 668 restriction is avoided.
 
 ## Build & run
 
+The recommended path is the one-step bootstrap script:
+
 ```sh
-# 1. C++ experiments only — produces results/*.csv
-make run
-
-# 2. Plots from existing CSVs — produces results/plots/*.png
-make plots
-
-# 3. Both at once
-make all-experiments
+./run.sh
 ```
 
-End-to-end run on a M-class Mac is ~30 seconds for the experiments and a few
-seconds for the plots.
+It performs, in order:
 
-You can also call the binary directly:
+1. Create `.venv/` and `pip install -r requirements.txt` if missing.
+2. Compile `src/main.cpp` to `bin/btree_exp`.
+3. Run all experiments → `results/*.csv` (7 files).
+4. Render every plot → `results/plots/*.png` (18 files).
+
+End-to-end takes ~30 seconds on an Apple M-class Mac.
+
+If you prefer fine-grained control, the underlying `Makefile` exposes
+each step separately:
+
+```sh
+make venv             # create .venv and install deps from requirements.txt
+make run              # build C++ binary and run experiments only
+make plots            # render plots from existing results/*.csv
+make all-experiments  # run + plots
+```
+
+The compiled binary can also be invoked directly:
 
 ```sh
 ./bin/btree_exp data/student.csv results

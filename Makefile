@@ -33,8 +33,9 @@ plots: venv
 	@mkdir -p $(PLOTS)
 	$(PY) scripts/plot.py $(RESULTS)
 
-# Run experiments, then render plots
-all-experiments: run plots
+# Run experiments, then render plots. `venv` is listed explicitly so a
+# clean clone with no `.venv/` still produces all 18 PNGs.
+all-experiments: venv run plots
 
 clean:
 	rm -rf bin $(RESULTS)/*.csv $(PLOTS)/*.png
